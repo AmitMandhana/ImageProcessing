@@ -1,0 +1,28 @@
+======================================================================
+SIFT PAIRWISE IMAGE MATCHING REPORT
+======================================================================
+
+Total images analyzed: 2
+Total pairs tested: 1
+Matching threshold: 10 keypoints
+
+Images:
+  1. graf1 (495 keypoints)
+  2. graf2 (537 keypoints)
+
+======================================================================
+MATCHING PAIRS (>= 10 matches)
+======================================================================
+
+1. graf1 ↔ graf2
+   Matches: 128 keypoint pairs
+   Explanation: These images share 128 matching keypoints,
+                indicating they likely show the same scene or object
+                from different viewpoints or under different conditions.
+
+
+======================================================================
+ALL PAIR DETAILS
+======================================================================
+
+graf1 <-> graf2: 128 matches [MATCH]

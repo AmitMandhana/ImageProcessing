@@ -27,7 +27,8 @@ assignment_02_sift/
 ├── src/
 │   ├── sift_from_scratch.py   # Complete SIFT implementation
 │   ├── utils.py               # Visualization and helper functions
-│   └── evaluate.py            # Evaluation metrics and robustness tests
+│   ├── evaluate.py            # Evaluation metrics and robustness tests
+│   └── pairwise_match.py      # Pairwise matching across a folder of images
 ├── notebooks/
 │   └── analysis.ipynb         # Interactive analysis and experiments
 ├── report/
@@ -68,6 +69,28 @@ This will:
 - Match descriptors using ratio test
 - Save visualizations to `report/figures/`
 
+### Pairwise Image Matching (NEW!)
+
+To find which images match in a collection:
+
+```bash
+# Place 5+ images in data/gallery/
+python src/pairwise_match.py --folder data/gallery --out report/figures/gallery
+```
+
+This will:
+- ✅ Compare all image pairs using SIFT keypoints
+- ✅ Show which pairs match and **why** (number of matching keypoints)
+- ✅ Generate match visualizations for each pair
+- ✅ Create similarity matrix (CSV + heatmap)
+- ✅ Save detailed matching report
+
+**Output:**
+- `matching_report.txt` - detailed explanation of which pairs match
+- `matches_matrix.csv` - pairwise match counts
+- `matches_heatmap.jpg` - visual similarity matrix
+- `image1__image2_matches.jpg` - match visualizations for each pair
+
 ### Run Full Evaluation
 
 ```bash
@@ -80,6 +103,21 @@ This runs comprehensive tests:
 - Scale robustness (0.5x, 0.75x, 1.0x, 1.25x, 1.5x, 2.0x)
 - Brightness robustness (0.5x, 0.75x, 1.0x, 1.25x, 1.5x)
 - Comparison with OpenCV SIFT (if available)
+
+### Pairwise Gallery Matching (5 images or more)
+
+Place multiple images in `data/gallery/` (jpg, png, ppm). Then run:
+
+```powershell
+python src/pairwise_match.py --folder data/gallery --out report/figures/gallery
+```
+
+This will:
+- Detect keypoints and descriptors for each image
+- Compute pairwise matches for all image pairs
+- Save per-pair visualizations: `nameA__nameB_matches.jpg`
+- Save a matches count matrix: `matches_matrix.csv`
+- Save a heatmap visualization: `matches_heatmap.jpg`
 
 ### Interactive Analysis
 

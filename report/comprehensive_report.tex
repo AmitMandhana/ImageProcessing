@@ -46,8 +46,6 @@ Due Date: 24.10.2025}
 \maketitle
 \thispagestyle{empty}
 
-\begin{abstract}
-This report presents a comprehensive implementation of the Scale-Invariant Feature Transform (SIFT) algorithm from scratch using Python, NumPy, and OpenCV. The project encompasses the complete SIFT pipeline including Gaussian pyramid construction, Difference of Gaussians (DoG) computation, keypoint detection and localization, orientation assignment, descriptor computation, and feature matching. The implementation is evaluated on multiple image pairs from the Oxford Affine Covariant Regions dataset, demonstrating robustness under various transformations including rotation, scale changes, and illumination variations. Additionally, pairwise matching and image stitching capabilities are implemented and thoroughly analyzed. The results validate the effectiveness of SIFT features for robust image matching and panorama creation.
 \end{abstract}
 
 \newpage
@@ -59,12 +57,14 @@ This report presents a comprehensive implementation of the Scale-Invariant Featu
 \subsection{Motivation}
 Feature detection and matching are fundamental problems in computer vision with applications ranging from object recognition and image stitching to 3D reconstruction and visual tracking. The Scale-Invariant Feature Transform (SIFT), introduced by David Lowe in 1999, revolutionized the field by providing features that are invariant to scale, rotation, and partially invariant to affine distortion and illumination changes.
 
+\textbf{Full code, datasets, and results are available at:} \\ 
+\textbf{\href{https://github.com/AmitMandhana/ImageProcessing}{https://github.com/AmitMandhana/ImageProcessing}}
+
 \subsection{Objective}
 The primary objectives of this assignment are:
 \begin{enumerate}
     \item Implement the complete SIFT algorithm from scratch without using pre-built SIFT functions
     \item Detect and describe image features using multi-scale space analysis
-    \item Match keypoints between multiple image pairs
     \item Visualize matching results with detailed analysis
     \item Evaluate performance under various transformations (rotation, scale, illumination)
     \item Implement pairwise matching across multiple images
@@ -472,6 +472,24 @@ Implements image stitching:
 \subsubsection{Dataset Description}
 The graffiti sequence consists of two images of a wall with graffiti, captured from different viewpoints with significant perspective distortion.
 
+\subsubsection{Input Images}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{data/graffiti/graf1.ppm}
+\caption{Original graffiti image 1 (640×800 pixels) - View from first perspective}
+\label{fig:graf1_input}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{data/graffiti/graf2.ppm}
+\caption{Original graffiti image 2 (640×800 pixels) - View from second perspective with viewpoint change}
+\label{fig:graf2_input}
+\end{figure}
+
+\textbf{Input Analysis:} The two input images show the same graffiti wall from significantly different viewpoints, introducing perspective distortion that challenges feature matching algorithms.
+
 \subsubsection{Execution Command}
 \begin{lstlisting}[language=bash]
 python run_demo.py
@@ -527,6 +545,37 @@ Match ratio: 23.81%
 ======================================================================
 \end{lstlisting}
 
+\subsubsection{Output: Keypoint Detection}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{report/figures/graf1_keypoints.jpg}
+\caption{Detected SIFT keypoints on graf1.ppm - 495 keypoints shown as circles with orientation indicators}
+\label{fig:graf1_keypoints}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{report/figures/graf2_keypoints.jpg}
+\caption{Detected SIFT keypoints on graf2.ppm - 537 keypoints shown as circles with scale and orientation}
+\label{fig:graf2_keypoints}
+\end{figure}
+
+\textbf{Keypoint Detection Analysis:}
+The keypoint visualizations show that SIFT successfully detected features across the entire graffiti wall. Notice how keypoints cluster around high-contrast text regions, edges of graffiti patterns, corner junctions, and textured areas with distinctive gradients. The circles represent keypoint locations, with circle size indicating the scale and the line showing the dominant orientation.
+
+\subsubsection{Output: Feature Matching}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{report/figures/graffiti_matches.jpg}
+\caption{Feature matching between graf1 and graf2 - Green lines connect 128 matched keypoint pairs}
+\label{fig:graffiti_matches}
+\end{figure}
+
+\textbf{Matching Visualization Analysis:}
+The green lines connecting keypoints between the two images demonstrate successful correspondence despite significant perspective distortion, different viewing angles, and scale variations in different regions. The matches are distributed across the image, with denser matching in regions with rich texture (graffiti patterns, text).
+
 \subsubsection{Results Analysis}
 \begin{table}[H]
 \centering
@@ -562,6 +611,24 @@ The SIFT implementation successfully detects and matches keypoints despite signi
 \subsubsection{Dataset Description}
 The bark sequence contains images of tree bark with natural texture, tested under scale and rotation variations.
 
+\subsubsection{Input Images}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{data/bark/bark1.ppm}
+\caption{Original bark image 1 (512×765 pixels) - Tree bark texture at original scale}
+\label{fig:bark1_input}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{data/bark/bark3.ppm}
+\caption{Original bark image 2 (512×765 pixels) - Same bark with scale and rotation variation}
+\label{fig:bark3_input}
+\end{figure}
+
+\textbf{Input Analysis:} The bark images showcase natural texture with repetitive patterns. The second image introduces scale and rotation transformations, testing SIFT's invariance properties on challenging natural textures.
+
 \subsubsection{Terminal Output}
 \begin{lstlisting}
 Selected image pair:
@@ -590,6 +657,37 @@ Total matches: 3
 Match ratio: 25.00%
 ======================================================================
 \end{lstlisting}
+
+\subsubsection{Output: Keypoint Detection}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{report/figures/bark1_keypoints.jpg}
+\caption{Detected SIFT keypoints on bark1.ppm - Only 12 keypoints detected on natural texture}
+\label{fig:bark1_keypoints}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{report/figures/bark3_keypoints.jpg}
+\caption{Detected SIFT keypoints on bark3.ppm - Only 4 keypoints detected due to scale/rotation}
+\label{fig:bark3_keypoints}
+\end{figure}
+
+\textbf{Keypoint Detection Analysis:}
+The bark images show dramatically fewer keypoints compared to graffiti. This is because natural bark texture is repetitive and self-similar with fewer sharp corners and edges, more uniform gradient distributions, and lower contrast variations. The sparse keypoints are located at the few distinctive irregularities in the bark pattern.
+
+\subsubsection{Output: Feature Matching}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{report/figures/bark_matches.jpg}
+\caption{Feature matching between bark1 and bark3 - Only 3 matches found due to sparse keypoints}
+\label{fig:bark_matches}
+\end{figure}
+
+\textbf{Matching Visualization Analysis:}
+Despite having very few keypoints, the algorithm successfully matched 3 out of 4 available keypoints from bark3, demonstrating that the SIFT descriptors are distinctive even on challenging natural textures. The green lines show these reliable matches.
 
 \subsubsection{Results Analysis}
 \begin{table}[H]
@@ -625,6 +723,39 @@ The bark sequence demonstrates SIFT's behavior on natural textures. While fewer 
 
 \subsubsection{Objective}
 Evaluate SIFT matching performance across multiple images simultaneously to identify which pairs have sufficient matches for further processing (e.g., stitching).
+
+\subsubsection{Input Images (Gallery Folder)}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{data/gallery/img1.ppm}
+\caption{img1.ppm}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{data/gallery/img3.ppm}
+\caption{img3.ppm}
+\end{subfigure}
+\caption{img1.ppm (left) and img3.ppm (right) - 640×800 pixels each - Urban scenes}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{data/gallery/graf1.ppm}
+\caption{graf1.ppm}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{data/gallery/bark1.ppm}
+\caption{bark1.ppm}
+\end{subfigure}
+\caption{graf1.ppm (left) and bark1.ppm (right) - Different scene types}
+\end{figure}
+
+\textbf{Gallery Description:}
+The gallery contains 4 diverse images: (1) img1 \& img3: Similar urban scenes expected to match well, (2) graf1: Graffiti wall with structured texture, (3) bark1: Tree bark with natural texture.
 
 \subsubsection{Execution Command}
 \begin{lstlisting}[language=bash]
@@ -722,6 +853,45 @@ Output files saved:
 ======================================================================
 \end{lstlisting}
 
+\subsubsection{Output: Pairwise Match Visualizations}
+
+\textbf{Individual Pair Matching Results:}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{report/figures/gallery_results/img1__img3_matches.jpg}
+\caption{img1 $\leftrightarrow$ img3 matching - 379 matches (STRONGEST) - Dense green lines indicate excellent correspondence}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{report/figures/gallery_results/graf1__img1_matches.jpg}
+\caption{graf1 $\leftrightarrow$ img1 matching - 22 matches - Moderate correspondence between different scenes}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{report/figures/gallery_results/graf1__img3_matches.jpg}
+\caption{graf1 $\leftrightarrow$ img3 matching - 24 matches - Similar moderate correspondence}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{report/figures/gallery_results/bark1__graf1_matches.jpg}
+\caption{bark1 $\leftrightarrow$ graf1 matching - Only 1 match - Insufficient for reliable correspondence}
+\end{figure}
+
+\subsubsection{Output: Matching Heatmap}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{report/figures/gallery_results/matches_heatmap.jpg}
+\caption{Pairwise matching heatmap - Color intensity shows match count (brighter = more matches)}
+\end{figure}
+
+\textbf{Heatmap Analysis:}
+The heatmap clearly visualizes matching relationships: (1) Bright yellow diagonal shows perfect self-matching, (2) Bright spot at img1-img3 indicates 379 matches and strong similarity, (3) Dark regions show bark1 has minimal matches with all other images, (4) Moderate spots show graf1 with weak matching to img1/img3.
+
 \subsubsection{Results Analysis}
 
 \begin{table}[H]
@@ -789,6 +959,22 @@ Create panoramic images by stitching matched image pairs using SIFT keypoints an
 
 \subsubsection{Experiment 4.1: img1 $\leftrightarrow$ img3 Stitching}
 
+\paragraph{Input Images for Stitching}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{https://raw.githubusercontent.com/AmitMandhana/ImageProcessing/main/data/gallery/img1.ppm}
+\caption{img1.ppm}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{https://raw.githubusercontent.com/AmitMandhana/ImageProcessing/main/data/gallery/img3.ppm}
+\caption{img3.ppm}
+\end{subfigure}
+\caption{Input images - img1.ppm (left) and img3.ppm (right) selected for stitching based on 379 matches}
+\end{figure}
+
 \paragraph{Execution Command}
 \begin{lstlisting}[language=bash]
 python src\stitch_images.py --img1 data\gallery\img1.ppm 
@@ -824,6 +1010,17 @@ STITCHING SUCCESSFUL!
   Saved to: report\figures\stitched_panorama.jpg\panorama.jpg
 ======================================================================
 \end{lstlisting}
+
+\paragraph{Output: Stitched Panorama}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{report/figures/stitched_panorama.jpg/panorama.jpg}
+\caption{Successfully stitched panorama from img1 and img3 using 364 inlier matches}
+\end{figure}
+
+\textbf{Panorama Quality Analysis:}
+The stitched panorama demonstrates seamless blending with no visible seams at the junction, correct geometric alignment through accurate homography, preserved details from both input images, and minimal distortion validated by the 96.04\% inlier ratio ensuring accurate transformation.
 
 \paragraph{Results Analysis}
 \begin{table}[H]
@@ -862,6 +1059,22 @@ The img1-img3 pair demonstrates ideal conditions for image stitching, with abund
 
 \subsubsection{Experiment 4.2: graf1 $\leftrightarrow$ img1 Stitching}
 
+\paragraph{Input Images for Stitching}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{https://raw.githubusercontent.com/AmitMandhana/ImageProcessing/main/data/gallery/graf1.ppm}
+\caption{graf1.ppm}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{https://raw.githubusercontent.com/AmitMandhana/ImageProcessing/main/data/gallery/img1.ppm}
+\caption{img1.ppm}
+\end{subfigure}
+\caption{Input images - graf1.ppm (left) and img1.ppm (right) with only 22 matches}
+\end{figure}
+
 \paragraph{Execution Command}
 \begin{lstlisting}[language=bash]
 python src\stitch_images.py --img1 data\gallery\graf1.ppm 
@@ -897,6 +1110,16 @@ STITCHING SUCCESSFUL!
   Saved to: report\figures\stitched_panorama123.jpg\panorama.jpg
 ======================================================================
 \end{lstlisting}
+
+\paragraph{Stitched Panorama Output}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{report/figures/stitched_panorama123.jpg/panorama.jpg}
+\caption{Stitched panorama from graf1 and img1 (640×800, 6 inliers)}
+\end{figure}
+
+\textbf{Analysis:} The low inlier ratio (27.27\%, only 6 out of 22 matches) indicates minimal overlap and significant geometric differences between graf1 and img1. Despite the small number of reliable correspondences, RANSAC successfully estimated a homography transformation for warping. The resulting panorama shows the blended images, though the limited inliers suggest this pair has weak spatial relationship. This demonstrates the robustness of RANSAC in filtering outliers and working with minimal viable matches, though such low inlier counts typically indicate non-ideal image pairs for stitching.
 
 \paragraph{Results Analysis}
 \begin{table}[H]

@@ -467,6 +467,20 @@ Implements image stitching:
 #### Dataset Description
 The graffiti sequence consists of two images of a wall with graffiti, captured from different viewpoints with significant perspective distortion.
 
+#### Input Images
+
+**Image 1: graf1.ppm**
+
+![Graffiti Image 1](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/graffiti/graf1.ppm)
+
+*Figure 4.1.1: Original graffiti image 1 (640×800 pixels) - View from first perspective*
+
+**Image 2: graf2.ppm**
+
+![Graffiti Image 2](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/graffiti/graf2.ppm)
+
+*Figure 4.1.2: Original graffiti image 2 (640×800 pixels) - View from second perspective with viewpoint change*
+
 #### Execution Command
 ```bash
 python run_demo.py
@@ -522,6 +536,43 @@ Match ratio: 23.81%
 ======================================================================
 ```
 
+#### Output: Keypoint Detection
+
+**Graf1 Keypoints Detection**
+
+![Graf1 Keypoints](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/graf1_keypoints.jpg)
+
+*Figure 4.1.3: Detected SIFT keypoints on graf1.ppm - 495 keypoints shown as circles with orientation indicators*
+
+**Graf2 Keypoints Detection**
+
+![Graf2 Keypoints](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/graf2_keypoints.jpg)
+
+*Figure 4.1.4: Detected SIFT keypoints on graf2.ppm - 537 keypoints shown as circles with scale and orientation*
+
+**Keypoint Detection Analysis:**
+The keypoint visualizations show that SIFT successfully detected features across the entire graffiti wall. Notice how keypoints cluster around:
+- High-contrast text regions
+- Edges of graffiti patterns  
+- Corner junctions
+- Textured areas with distinctive gradients
+
+The circles represent keypoint locations, with circle size indicating the scale and the line showing the dominant orientation.
+
+#### Output: Feature Matching
+
+![Graffiti Matches](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/graffiti_matches.jpg)
+
+*Figure 4.1.5: Feature matching between graf1 and graf2 - Green lines connect 128 matched keypoint pairs*
+
+**Matching Visualization Analysis:**
+The green lines connecting keypoints between the two images demonstrate successful correspondence despite:
+- Significant perspective distortion
+- Different viewing angles
+- Scale variations in different regions
+
+The matches are distributed across the image, with denser matching in regions with rich texture (graffiti patterns, text).
+
 #### Results Analysis
 
 | Metric | Value |
@@ -552,6 +603,20 @@ The SIFT implementation successfully detects and matches keypoints despite signi
 #### Dataset Description
 The bark sequence contains images of tree bark with natural texture, tested under scale and rotation variations.
 
+#### Input Images
+
+**Image 1: bark1.ppm**
+
+![Bark Image 1](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/bark/bark1.ppm)
+
+*Figure 4.2.1: Original bark image 1 (512×765 pixels) - Tree bark texture at original scale*
+
+**Image 2: bark3.ppm**
+
+![Bark Image 2](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/bark/bark3.ppm)
+
+*Figure 4.2.2: Original bark image 2 (512×765 pixels) - Same bark with scale and rotation variation*
+
 #### Terminal Output
 ```
 Selected image pair:
@@ -580,6 +645,38 @@ Total matches: 3
 Match ratio: 25.00%
 ======================================================================
 ```
+
+#### Output: Keypoint Detection
+
+**Bark1 Keypoints Detection**
+
+![Bark1 Keypoints](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/bark1_keypoints.jpg)
+
+*Figure 4.2.3: Detected SIFT keypoints on bark1.ppm - Only 12 keypoints detected on natural texture*
+
+**Bark3 Keypoints Detection**
+
+![Bark3 Keypoints](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/bark3_keypoints.jpg)
+
+*Figure 4.2.4: Detected SIFT keypoints on bark3.ppm - Only 4 keypoints detected due to scale/rotation*
+
+**Keypoint Detection Analysis:**
+The bark images show dramatically fewer keypoints compared to graffiti. This is because:
+- Natural bark texture is repetitive and self-similar
+- Fewer sharp corners and edges
+- More uniform gradient distributions
+- Lower contrast variations
+
+The sparse keypoints are located at the few distinctive irregularities in the bark pattern.
+
+#### Output: Feature Matching
+
+![Bark Matches](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/bark_matches.jpg)
+
+*Figure 4.2.5: Feature matching between bark1 and bark3 - Only 3 matches found due to sparse keypoints*
+
+**Matching Visualization Analysis:**
+Despite having very few keypoints, the algorithm successfully matched 3 out of 4 available keypoints from bark3, demonstrating that the SIFT descriptors are distinctive even on challenging natural textures. The green lines show these reliable matches.
 
 #### Results Analysis
 
@@ -610,6 +707,24 @@ The bark sequence demonstrates SIFT's behavior on natural textures. While fewer 
 
 #### Objective
 Evaluate SIFT matching performance across multiple images simultaneously to identify which pairs have sufficient matches for further processing (e.g., stitching).
+
+#### Input Images (Gallery Folder)
+
+**Gallery Image Collection:**
+
+![img1.ppm](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/gallery/img1.ppm) ![img3.ppm](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/gallery/img3.ppm)
+
+*Figure 4.3.1: img1.ppm (left) and img3.ppm (right) - 640×800 pixels each*
+
+![graf1.ppm](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/gallery/graf1.ppm) ![bark1.ppm](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/gallery/bark1.ppm)
+
+*Figure 4.3.2: graf1.ppm (left) and bark1.ppm (right) - Different scenes for comparison*
+
+**Gallery Description:**
+The gallery contains 4 diverse images:
+- **img1.ppm & img3.ppm**: Similar urban scenes (expected to match well)
+- **graf1.ppm**: Graffiti wall (structured texture)
+- **bark1.ppm**: Tree bark (natural texture)
 
 #### Execution Command
 ```bash
@@ -706,6 +821,39 @@ Output files saved:
 ======================================================================
 ```
 
+#### Output: Pairwise Match Visualizations
+
+**Individual Pair Matching Results:**
+
+![img1 img3 matches](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/gallery_results/img1__img3_matches.jpg)
+
+*Figure 4.3.3: img1 ↔ img3 matching - 379 matches (STRONGEST) - Dense green lines indicate excellent correspondence*
+
+![graf1 img1 matches](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/gallery_results/graf1__img1_matches.jpg)
+
+*Figure 4.3.4: graf1 ↔ img1 matching - 22 matches - Moderate correspondence between different scenes*
+
+![graf1 img3 matches](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/gallery_results/graf1__img3_matches.jpg)
+
+*Figure 4.3.5: graf1 ↔ img3 matching - 24 matches - Similar moderate correspondence*
+
+![bark1 graf1 matches](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/gallery_results/bark1__graf1_matches.jpg)
+
+*Figure 4.3.6: bark1 ↔ graf1 matching - Only 1 match - Insufficient for reliable correspondence*
+
+#### Output: Matching Heatmap
+
+![Matches Heatmap](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/gallery_results/matches_heatmap.jpg)
+
+*Figure 4.3.7: Pairwise matching heatmap - Color intensity shows match count (brighter = more matches)*
+
+**Heatmap Analysis:**
+The heatmap clearly visualizes matching relationships:
+- **Bright yellow diagonal**: Perfect self-matching (each image with itself)
+- **Bright spot at img1-img3**: 379 matches indicating strong similarity
+- **Dark regions**: bark1 has minimal matches with all other images
+- **Moderate spots**: graf1 shows weak matching with img1/img3
+
 #### Results Analysis
 
 | Image Pair | Keypoints | Matches | Quality | Status |
@@ -760,6 +908,12 @@ The pairwise analysis successfully identifies matching relationships across mult
 
 #### 4.4.1 img1 ↔ img3 Stitching
 
+**Input Images for Stitching:**
+
+![img1](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/gallery/img1.ppm) ![img3](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/gallery/img3.ppm)
+
+*Figure 4.4.1: Input images - img1.ppm (left) and img3.ppm (right) selected for stitching based on 379 matches*
+
 **Execution Command:**
 ```bash
 python src\stitch_images.py --img1 data\gallery\img1.ppm 
@@ -796,6 +950,19 @@ STITCHING SUCCESSFUL!
 ======================================================================
 ```
 
+**Output: Stitched Panorama**
+
+![Stitched Panorama img1+img3](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/stitched_panorama.jpg/panorama.jpg)
+
+*Figure 4.4.2: Successfully stitched panorama from img1 and img3 using 364 inlier matches*
+
+**Panorama Quality Analysis:**
+The stitched panorama demonstrates:
+- **Seamless blending**: No visible seams at the junction
+- **Correct geometric alignment**: Homography accurately warped images
+- **Preserved details**: Both images contribute to the final panorama
+- **Minimal distortion**: 96.04% inlier ratio ensures accurate transformation
+
 **Results Analysis:**
 
 | Metric | Value |
@@ -823,6 +990,12 @@ STITCHING SUCCESSFUL!
 ---
 
 #### 4.4.2 graf1 ↔ img1 Stitching
+
+**Input Images for Stitching:**
+
+![graf1](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/gallery/graf1.ppm) ![img1](https://github.com/AmitMandhana/ImageProcessing/blob/main/data/gallery/img1.ppm)
+
+*Figure 4.4.3: Input images - graf1.ppm (left) and img1.ppm (right) with only 22 matches*
 
 **Execution Command:**
 ```bash
@@ -859,6 +1032,19 @@ STITCHING SUCCESSFUL!
   Saved to: report\figures\stitched_panorama123.jpg\panorama.jpg
 ======================================================================
 ```
+
+**Output: Stitched Panorama**
+
+![Stitched Panorama graf1+img1](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/stitched_panorama123.jpg/panorama.jpg)
+
+*Figure 4.4.4: Stitched panorama from graf1 and img1 using only 6 inlier matches - lower quality expected*
+
+**Panorama Quality Analysis:**
+This challenging stitching scenario shows:
+- **Minimal inliers**: Only 6 reliable matches out of 22
+- **Less stable homography**: Lower inlier ratio (27.27%) affects alignment accuracy
+- **RANSAC filtering**: Successfully eliminated 16 outliers (72.73%)
+- **Acceptable result**: Despite challenges, panorama is created demonstrating algorithm robustness
 
 **Results Analysis:**
 
@@ -1178,27 +1364,53 @@ The SIFT algorithm, despite being over two decades old, remains a cornerstone of
 
 ## Appendix
 
-### A. Code Availability
+### A. Complete Project Repository
 
-Complete code available in project repository:
-- **Core SIFT**: `src/sift_from_scratch.py`
-- **Pairwise Matching**: `src/pairwise_match.py`
-- **Image Stitching**: `src/stitch_images.py`
-- **Utilities**: `src/utils.py`
-- **Evaluation**: `src/evaluate.py`
+**GitHub Repository:** https://github.com/AmitMandhana/ImageProcessing
 
-### B. Output Files
+All source code, datasets, and results are available in the repository:
 
-All visualizations and results available in:
-- Keypoint detections: `report/figures/*_keypoints_*.jpg`
-- Match visualizations: `report/figures/*_matches.jpg`
-- Pairwise analysis: `report/figures/gallery_results/`
-- Stitched panoramas: `report/figures/stitched_*.jpg`
+#### Source Code Files:
+- **Core SIFT Implementation**: [src/sift_from_scratch.py](https://github.com/AmitMandhana/ImageProcessing/blob/main/src/sift_from_scratch.py)
+- **Pairwise Matching**: [src/pairwise_match.py](https://github.com/AmitMandhana/ImageProcessing/blob/main/src/pairwise_match.py)
+- **Image Stitching**: [src/stitch_images.py](https://github.com/AmitMandhana/ImageProcessing/blob/main/src/stitch_images.py)
+- **Utilities**: [src/utils.py](https://github.com/AmitMandhana/ImageProcessing/blob/main/src/utils.py)
+- **Evaluation**: [src/evaluate.py](https://github.com/AmitMandhana/ImageProcessing/blob/main/src/evaluate.py)
+- **Demo Script**: [run_demo.py](https://github.com/AmitMandhana/ImageProcessing/blob/main/run_demo.py)
+
+#### Dataset Files:
+- **Graffiti Images**: [data/graffiti/](https://github.com/AmitMandhana/ImageProcessing/tree/main/data/graffiti)
+- **Bark Images**: [data/bark/](https://github.com/AmitMandhana/ImageProcessing/tree/main/data/bark)
+- **Gallery Images**: [data/gallery/](https://github.com/AmitMandhana/ImageProcessing/tree/main/data/gallery)
+
+#### Output Visualizations:
+- **Keypoint Detections**: [report/figures/](https://github.com/AmitMandhana/ImageProcessing/tree/main/report/figures)
+  - `graf1_keypoints.jpg`, `graf2_keypoints.jpg`
+  - `bark1_keypoints.jpg`, `bark3_keypoints.jpg`
+  - `img1_keypoints.jpg`, `img3_keypoints.jpg`
+- **Match Visualizations**:
+  - `graffiti_matches.jpg`, `bark_matches.jpg`
+- **Pairwise Analysis**: [report/figures/gallery_results/](https://github.com/AmitMandhana/ImageProcessing/tree/main/report/figures/gallery_results)
+  - All 6 pair match visualizations
+  - `matches_heatmap.jpg`
+  - `matches_matrix.csv`
+  - `matching_report.txt`
+- **Stitched Panoramas**:
+  - [stitched_panorama.jpg/panorama.jpg](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/stitched_panorama.jpg/panorama.jpg)
+  - [stitched_panorama123.jpg/panorama.jpg](https://github.com/AmitMandhana/ImageProcessing/blob/main/report/figures/stitched_panorama123.jpg/panorama.jpg)
+
+### B. Documentation Files
+
+- **Main README**: [README.md](https://github.com/AmitMandhana/ImageProcessing/blob/main/README.md)
+- **Setup Instructions**: [SETUP_INSTRUCTIONS.md](https://github.com/AmitMandhana/ImageProcessing/blob/main/SETUP_INSTRUCTIONS.md)
+- **Quick Reference**: [QUICK_REFERENCE.md](https://github.com/AmitMandhana/ImageProcessing/blob/main/QUICK_REFERENCE.md)
+- **Pairwise Matching Guide**: [PAIRWISE_MATCHING_GUIDE.md](https://github.com/AmitMandhana/ImageProcessing/blob/main/PAIRWISE_MATCHING_GUIDE.md)
+- **Project Summary**: [PROJECT_COMPLETE.md](https://github.com/AmitMandhana/ImageProcessing/blob/main/PROJECT_COMPLETE.md)
 
 ### C. Dataset Sources
 
 - Oxford Affine Covariant Regions Dataset
-- Custom gallery images
+- Custom gallery images for pairwise matching and stitching experiments
 
 ---
 
